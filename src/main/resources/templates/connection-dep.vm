@@ -1,0 +1,137 @@
+<div class="connectionDepArea">
+    #* <div class="tips">“标题关键字”，“DEP链接”条件二选一</div>*#
+
+    #if(!$connectionDepResult.success)
+        <div class="message">$connectionDepResult.message</div>
+    #else
+    <table>
+        <tbody>
+        <tr>
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">标题</span></th>
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">经办人</span></th>
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">创建人</span></th>
+
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">类型</span></th>
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">状态</span></th>
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">项目</span></th>
+
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">迭代</span></th>
+
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">创建时间</span></th>
+
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">完成时间</span></th>
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">优先级</span></th>
+
+        #foreach($param in ${connectionDepResult.expandColumns.entrySet()})   
+            <th style="text-align: left; text-transform: capitalize;"
+                class="jira-macro-table-underline-pdfexport jira-tablesorter-header"><span
+                    class="jim-table-header-content">${param.value}  </span></th>
+        #end  
+            
+        </tr>
+
+            #foreach( $one in $paginationSupport.page.iterator())
+            #set($one=$one.AsJsonObject)
+            <tr class="rowNormal">
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport" title="${one.name.AsString}"><a
+                        target="_blank"
+                    #if($one.type.AsString=='requirement')
+                        href="http://${connectionDepResult.domain}/#/demandDetail?id=${one.id}"
+                    #else
+                        href="http://${connectionDepResult.domain}/#/${one.type.AsString}Detail?id=${one.id}"
+                    #end
+
+                > ${one.name.AsString}</a></td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">$one.processorDisplayName.AsString</td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">$one.creatorDisplayName.AsString</td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">
+                    #if($one.type.AsString=='task')
+                        <span>任务</span>
+                    #elseif($one.type.AsString=='bug')
+                        <span>Bug</span>
+                    #elseif($one.type.AsString=='requirement')
+                        <span>需求</span>
+                    #else
+                        <span>$one.type</span>
+                    #end
+                </td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">$one.status.AsString</td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport"><a
+                        target="_blank"
+                        href="http://${connectionDepResult.domain}/#/projectInfo/gailan?projectId=$one.projectId">$one.projectName.AsString</a>
+                </td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">
+                    #if($one.iterationName.AsString!='无迭代')
+                        <a target="_blank"
+                           href="http://${connectionDepResult.domain}/#/iterationDetail?iterationId=${one.iterationId}">$one.iterationName.AsString</a>
+                    #else
+                        $one.iterationName.AsString
+                    #end
+                </td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">
+                    #if($one.dateCreated)
+                        $one.dateCreated.AsString
+                    #end
+                </td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">
+                    #if($one.completeTime!="null")
+                        $one.completeTime.AsString
+                    #end
+                </td>
+                <td nowrap="true" class="jira-macro-table-underline-pdfexport">$one.priority.AsString</td>
+                
+                #foreach($param in ${connectionDepResult.expandColumns.entrySet()})   
+                   #set($keyStr = ${param.key})
+                    #set($key = $keyStr)
+                    #set($data = '$one')
+                    #set($asString = 'AsString')
+                    #set($temp = "\$one.$key")
+                    <td nowrap="true" class="jira-macro-table-underline-pdfexport">
+                            #set($aa = "#evaluate($temp)")
+                            #if($aa.indexOf("\$one")==-1)
+                                #set($aa = $aa.replace("&quot;",""))
+                                #set($aa = $aa.replace("null",""))
+                                $aa
+                            #end
+                        
+                    </td>
+                 #end  
+                
+            </tr>
+            #end
+
+    </table>
+    <div class="refresh-issues-bottom">
+    
+        <span>showing
+                ${paginationSupport.total}
+            of <a target="_blank" 
+                #if(${connectionDepResult.filterId})
+                    href="http://${connectionDepResult.domain}/#/search?searchFilterId=${connectionDepResult.filterId}"
+                #else
+                    href="http://${connectionDepResult.domain}/#/search?${connectionDepResult.query}"
+                #end
+                >$connectionDepResult.total</a> </span>
+    </div>
+    #end
+</div>

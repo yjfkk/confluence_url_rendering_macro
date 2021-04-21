@@ -1,0 +1,32 @@
+<div class="dep-detail">
+ #if(!$connectionDepResult.success)
+    <div class="message">
+       
+            <div class="message">$connectionDepResult.message</div>
+        
+    </div>
+#else
+
+    <div class="main-context">
+      
+        <p>
+            <span class="jira-issue">
+                <a target="_blank" 
+                    href="http://${connectionDepResult.domain}/#/${connectionDepResult.data.type}Detail?id=${connectionDepResult.data.id}"
+                    class="jira-issue-key"><img
+                    class="icon"
+                    src="http://wf.vdian.net/secure/viewavatar?size=xsmall&amp;avatarId=10308&amp;avatarType=issuetype">${connectionDepResult.data.id}</a>
+                -
+                <span class="summary">${connectionDepResult.data.name}</span>
+                #if(${connectionDepResult.data.status} =='完成'||${connectionDepResult.data.status}=='废弃')
+                    <span class="aui-lozenge aui-lozenge-subtle aui-lozenge-success jira-macro-single-issue-export-pdf">${connectionDepResult.data.status}</span>
+                #else
+                     <span class="aui-lozenge aui-lozenge-subtle aui-lozenge-current jira-macro-single-issue-export-pdf">${connectionDepResult.data.status}</span>
+                #end
+            </span>
+
+        </p>
+
+    </div>
+#end
+</div>

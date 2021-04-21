@@ -1,0 +1,44 @@
+.connectionDepArea {
+    width: 100%;
+    overflow: auto;
+
+}
+.connectionDepArea  .blue h1 {
+    color: blue;
+}
+.connectionDepArea table{
+    border-collapse: collapse;
+    width: 100%;
+}
+.connectionDepArea .rowNormal{
+    border-bottom: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+}
+
+.connectionDepArea .red h1 {
+    color: red;
+}
+
+.connectionDepArea .green h1 {
+    color: green;
+}
+.connectionDepArea .tips{
+    padding: 15px;
+    color: cornflowerblue;
+}
+.connectionDepArea .message{
+    padding: 15px;
+    color:red;
+}
+.connectionDepArea td{
+    padding: 7px 10px;
+    text-align: left;
+    vertical-align: top;
+    max-width:200px;
+    min-width:30px;
+    overflow: hidden;
+}
+.connectionDepArea th{
+    padding: 7px 10px;
+}

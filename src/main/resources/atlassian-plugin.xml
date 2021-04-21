@@ -1,0 +1,43 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="myPlugin"/>
+    
+    <!-- add our web resources -->
+    <web-resource key="myPlugin-resources" name="myPlugin Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.confluence.plugins.confluence-paste:autoconvert-core</dependency>
+        <resource type="download" name="myPlugin.css" location="/css/myPlugin.css"/>
+        <resource type="download" name="myPlugin.js" location="/js/myPlugin.js"/>
+        <resource type="download" name="images/" location="/images"/>
+        <context>page</context>
+        <context>viewcontent</context>
+        <context>preview</context>
+        <context>editor</context>
+    </web-resource>
+
+    <xhtml-macro name="search-dep" class="com.atlassian.tutorial.macro.SearchDepMacro" key='search-dep' >
+        <description key="DEP平台搜索结果"/>
+        <category name="development"/>
+        <parameters>
+            <parameter name="标题关键字"  type="string" desc="标题关键字"/>
+            <parameter name="DEP搜索链接"  type="string" desc="DEP搜索结果链接"/>
+        </parameters>
+    </xhtml-macro>
+
+    <xhtml-macro name="dep-detail" class="com.atlassian.tutorial.macro.DepDetailMacro" key='dep-detail'>
+        <description key="DEP详情"/>
+        <category name="development"/>
+        <parameters>
+            <parameter name="详情地址"  type="string" desc="详情地址"/>
+        </parameters>
+    </xhtml-macro>
+
+</atlassian-plugin>
